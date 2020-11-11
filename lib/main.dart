@@ -171,7 +171,7 @@ class _mapState extends State<map> {
            initialCameraPosition: _intial,
            markers: Set<Marker>.of([
             Marker(markerId: MarkerId("Home"),position: LatLng(widget.lat,widget.lng),infoWindow: InfoWindow(
-             title: "Bihar",snippet: "Courstey : Bihar",onTap: (){
+             title: widget.place,snippet: "Courstey : Bihar",onTap: (){
                showBottom(context);
                Focus.of(context).unfocus();
              }
