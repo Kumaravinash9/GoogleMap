@@ -72,7 +72,7 @@ class _GoogleAppState extends State<GoogleApp> {
         lng=first.coordinates.longitude;
         place=first.featureName;
          animateTo(lat, lng);
-        debugPrint(lat.toString());
+        
       });
    }
 
