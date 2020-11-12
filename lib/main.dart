@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'AdditionalWiget/Map.dart';
+
+import 'AdditionalWiget/TextField.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -30,6 +34,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      debugShowCheckedModeBanner: false,
       home: GoogleApp(),
     );
   }
@@ -81,7 +86,7 @@ class _GoogleAppState extends State<GoogleApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-        alignment: Alignment.topCenter,
+        
         children:<Widget> [
           map(lat,lng,_completer,place),
         textField(_geocoder),
@@ -95,104 +100,5 @@ class _GoogleAppState extends State<GoogleApp> {
   }
 }
 
-class textField extends StatefulWidget {
- void  Function (String  _text)_geocoder;
-  textField(this._geocoder);
-  @override
-  _textFieldState createState() => _textFieldState();
-}
 
-class _textFieldState extends State<textField> {
- TextEditingController _text= new TextEditingController() ;
- 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width:300,
-          child: Padding(
-        padding: const EdgeInsets.only(top:40),
-        child: TextField(
-            decoration: InputDecoration(border: OutlineInputBorder(gapPadding:  2,borderSide: BorderSide.none),suffixIcon: Icon(Icons.search),contentPadding: const EdgeInsets.symmetric(vertical: 1,horizontal: 5),filled: true,fillColor: Colors.blue[50]),
-            onSubmitted: (value){
-              setState(() {
-               
-              widget._geocoder(_text.text.toString());
-             });
-             _text.clear();
-             Focus.of(context).unfocus();
-             
-            },
-            controller: _text,
-        ),
-        
-      ),
-    );
-  }
-}
-class map extends StatefulWidget {
- final double lat,lng;
- final String place;
- Completer<GoogleMapController> completer;
-  map(this.lat,this.lng,this.completer,this.place);
-  @override
-  _mapState createState() => _mapState();
-}
 
-class _mapState extends State<map> {
-    GoogleMapController _controller;
-   CameraPosition _intial;
-    @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  _intial=CameraPosition(target: LatLng(widget.lat,widget.lng));
-   
-  }
-  
- 
-  @override
-  Widget build(BuildContext context) {
-    
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: GoogleMap(
-       
-           
-           zoomControlsEnabled: false,
-           myLocationEnabled: false,
-           rotateGesturesEnabled: true,
-           onMapCreated: (GoogleMapController controller)
-           {
-             widget.completer.complete(controller) ;
-              
-           },
-           
-           initialCameraPosition: _intial,
-           markers: Set<Marker>.of([
-            Marker(markerId: MarkerId("Home"),position: LatLng(widget.lat,widget.lng),infoWindow: InfoWindow(
-             title: "Bihar",snippet: "Courstey : Bihar",onTap: (){
-               showBottom(context);
-               Focus.of(context).unfocus();
-             }
-
-            )
-            )
-          ]),
-
-      ),
-      
-    );
-  }
-}
-showBottom(BuildContext ctx) async{
-await showModalBottomSheet(context: ctx, builder: (btcx){
-return Card(
-  child:Container(
-  height:300,
-
-  
-  ),
-);
-});
-}

@@ -19,14 +19,16 @@ class map extends StatefulWidget {
 class _mapState extends State<map> {
     GoogleMapController _controller;
    CameraPosition _intial;
+ 
     @override
   void initState() {
     // TODO: implement initState
     super.initState();
-  _intial=CameraPosition(target: LatLng(widget.lat,widget.lng));
+  _intial=CameraPosition(target: LatLng(widget.lat,widget.lng),zoom:15.05);
+  
    
   }
-  
+ 
  
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class _mapState extends State<map> {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
+      
       child: GoogleMap(
            zoomControlsEnabled: false,
            myLocationEnabled: false,
@@ -48,6 +51,7 @@ class _mapState extends State<map> {
            markers: Set<Marker>.of([
             Marker(markerId: MarkerId("Home"),position: LatLng(widget.lat,widget.lng),infoWindow: InfoWindow(
              title: widget.place,snippet: "Courstey : Bihar",onTap: (){
+               
                showBottom(context);
                Focus.of(context).unfocus();
              }
